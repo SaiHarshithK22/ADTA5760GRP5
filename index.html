@@ -1,10 +1,170 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-    <title>My Website</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>File Directory</title>
+    <style>
+        :root {
+            --bg-color: #f4f7f9;
+            --card-bg: #ffffff;
+            --text-main: #2c3e50;
+            --text-muted: #7f8c8d;
+            --primary-color: #3498db;
+            --hover-color: #e1eff8;
+            --border-color: #e0e6ed;
+        }
+
+        body {
+            font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-main);
+            margin: 0;
+            padding: 40px 20px;
+            line-height: 1.6;
+        }
+
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+        }
+
+        header {
+            text-align: center;
+            margin-bottom: 40px;
+        }
+
+        h1 {
+            font-size: 2.5rem;
+            margin: 0 0 10px 0;
+            color: var(--text-main);
+        }
+
+        p.subtitle {
+            color: var(--text-muted);
+            margin: 0;
+            font-size: 1.1rem;
+        }
+
+        .folder-section {
+            background: var(--card-bg);
+            border-radius: 12px;
+            padding: 30px;
+            margin-bottom: 30px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+            border: 1px solid var(--border-color);
+        }
+
+        .folder-section h2 {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-top: 0;
+            padding-bottom: 15px;
+            border-bottom: 2px solid var(--border-color);
+            color: var(--text-main);
+        }
+
+        /* SVG Folder Icon */
+        .folder-icon {
+            width: 24px;
+            height: 24px;
+            fill: var(--primary-color);
+        }
+
+        .file-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(130px, 1fr));
+            gap: 12px;
+            margin-top: 20px;
+        }
+
+        .file-link {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 12px 8px;
+            background-color: var(--bg-color);
+            color: var(--primary-color);
+            text-decoration: none;
+            border-radius: 8px;
+            font-size: 0.9rem;
+            font-weight: 500;
+            border: 1px solid transparent;
+            transition: all 0.2s ease;
+        }
+
+        .file-link:hover {
+            background-color: var(--hover-color);
+            border-color: #b9d8ef;
+            color: #217dbb;
+            transform: translateY(-2px);
+        }
+    </style>
 </head>
 <body>
-    <h1>Welcome to My Website</h1>
-    <p>This is my simple index.html page.</p>
+
+    <div class="container">
+        <header>
+            <h1>Document Directory</h1>
+            <p class="subtitle">Access your Manufacturing and Medical PDFs below</p>
+        </header>
+
+        <section class="folder-section">
+            <h2>
+                <svg class="folder-icon" viewBox="0 0 24 24">
+                    <path d="M10 4H4c-1.1 0-1.99.9-1.99 2L2 18c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V8c0-1.1-.9-2-2-2h-8l-2-2z"/>
+                </svg>
+                Manufacturing
+            </h2>
+            <div id="manufacturing-list" class="file-grid"></div>
+        </section>
+
+        <section class="folder-section">
+            <h2>
+                <svg class="folder-icon" viewBox="0 0 24 24">
+                    <path d="M10 4H4c-1.1 0-1.99.9-1.99 2L2 18c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V8c0-1.1-.9-2-2-2h-8l-2-2z"/>
+                </svg>
+                Medical
+            </h2>
+            <div id="medical-list" class="file-grid"></div>
+        </section>
+    </div>
+
+    <script>
+        /**
+         * Generates a list of file links dynamically based on a pattern
+         * @param {string} folderName - The name of the directory (e.g., 'Manufacturing')
+         * @param {string} prefix - The prefix of the file name (e.g., 'MAN')
+         * @param {number} count - The total number of files to generate
+         * @param {string} containerId - The HTML ID of the grid container
+         */
+        function renderFileList(folderName, prefix, count, containerId) {
+            const container = document.getElementById(containerId);
+            
+            // Create a document fragment to improve DOM rendering performance
+            const fragment = document.createDocumentFragment();
+
+            for (let i = 1; i <= count; i++) {
+                const fileName = `${prefix}_${i}.pdf`;
+                const filePath = `files/${folderName}/${fileName}`;
+                
+                const linkElement = document.createElement('a');
+                linkElement.href = filePath;
+                linkElement.className = 'file-link';
+                linkElement.textContent = fileName;
+                linkElement.target = '_blank'; // Opens PDF in a new browser tab
+                
+                fragment.appendChild(linkElement);
+            }
+
+            container.appendChild(fragment);
+        }
+
+        // Initialize the lists when the script runs
+        renderFileList('Manufacturing', 'MAN', 100, 'manufacturing-list');
+        renderFileList('Medical', 'MED', 50, 'medical-list');
+    </script>
+
 </body>
 </html>
